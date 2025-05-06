@@ -6,12 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'git@github.com:HudJo712/DEVOP1-HudJo712-.git'
-            }
-        }
-
         stage('Run Tests') {
             steps {
                 sh 'pytest tests/'
