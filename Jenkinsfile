@@ -8,9 +8,12 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'git@github.com:HudJo712/DEVOP1-HudJo712-.git'
+                git credentialsId: 'b9e3076c-5e67-4eee-97c0-17184f698c47',
+                    branch: 'main',
+                    url: 'git@github.com:HudJo712/DEVOP1-HudJo712-.git'
             }
         }
+
 
         stage('Run Tests') {
             steps {
