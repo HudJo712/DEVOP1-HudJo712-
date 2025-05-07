@@ -6,13 +6,14 @@ pipeline {
  stages {
 stage('Run Tests') {
   steps {
-    sh '''
+    sh """#!/bin/bash
       docker run --rm \
       -v $WORKSPACE:/app -w /app \
       python:3.9 bash -c "pip install -r requirements.txt && pytest tests/"
-    '''
+    """
   }
 }
+
 
  stage('Build Docker Image') {
  steps {
