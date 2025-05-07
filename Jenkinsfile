@@ -4,11 +4,6 @@ pipeline {
  DOCKER_IMAGE = "hudjo712/ci-cd-demo:latest"
  }
  stages {
- stage('Checkout') {
- steps {
- git 'https://github.com/HudJo712/DEVOP1-HudJo712-'
- }
- }
  stage('Run Tests') {
  steps {
  sh 'pytest tests/'
