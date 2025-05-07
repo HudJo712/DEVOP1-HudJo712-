@@ -2,19 +2,23 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "your-dockerhub-username/ci-cd-demo:latest"
+        DOCKER_IMAGE = "hudjo712/ci-cd-demo:latest"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-username/ci-cd-demo.git'
+                git branch: 'main', url: 'git@github.com:HudJo712/DEVOP1-HudJo712-.git'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'pytest tests/'  // Run Python tests
+                sh '''
+                    docker run --rm \
+                      -v $WORKSPACE:/app -w /app \
+                      python:3.9 bash -c "pip install -r requirements.txt && pytest tests/"
+                '''
             }
         }
 
