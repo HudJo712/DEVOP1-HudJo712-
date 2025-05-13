@@ -44,15 +44,22 @@ pipeline {
                 }
             }
         }
+        stage('Check k8s Directory') {
+            steps {
+                sh 'ls -l ci-cd-demo/k8s'
+            }
+        }
 
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                docker run --rm -v $HOME/.kube:/root/.kube \
-                -v "$PWD/k8s":/k8s \
+                docker run --rm \
+                -v "$HOME/.kube":/root/.kube \
+                -v "$PWD/ci-cd-demo/k8s":/k8s \
                 bitnami/kubectl:latest apply -f /k8s/deployment.yaml
                 '''
             }
         }
+
     }
 }
