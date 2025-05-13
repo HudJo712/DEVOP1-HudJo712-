@@ -63,11 +63,17 @@ pipeline {
                 sh '''
                 docker run --rm \
                 -v "$HOME/.kube":/root/.kube \
-                -v "$PWD/ci-cd-demo/k8s":/k8s \
-                bitnami/kubectl:latest apply -f /k8s/deployment.yaml
+                bitnami/kubectl:latest bash -c "
+                    mkdir /deploy &&
+                    cat > /deploy/deployment.yaml <<EOF
+                    $(cat ci-cd-demo/k8s/deployment.yaml)
+                    EOF
+                    kubectl apply -f /deploy/deployment.yaml
+                "
                 '''
             }
         }
+
 
     }
 }
