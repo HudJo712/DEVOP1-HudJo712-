@@ -47,7 +47,11 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f k8s/deployment.yaml'
+                sh '''
+                docker run --rm -v $HOME/.kube:/root/.kube \
+                -v "$PWD/k8s":/k8s \
+                bitnami/kubectl:latest apply -f /k8s/deployment.yaml
+                '''
             }
         }
     }
