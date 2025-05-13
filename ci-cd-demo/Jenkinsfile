@@ -58,22 +58,24 @@ pipeline {
             }
         }
         stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    def deployYaml = readFile('ci-cd-demo/k8s/deployment.yaml').replace('"', '\\"')
+    steps {
+                sh '''
+                docker run --rm \
+                --entrypoint bash \
+                -v "$HOME/.kube":/root/.kube \
+                bitnami/kubectl:latest <<EOF
+        echo "Writing YAML..."
+        cat > /deploy.yaml <<YAML
+        <your YAML content here>
+        YAML
 
-                    sh """
-                    docker run --rm \
-                        --entrypoint bash \
-                        -v "\$HOME/.kube":/root/.kube \
-                        bitnami/kubectl:latest -c "
-                        echo \\"${deployYaml}\\" > /deploy.yaml &&
-                        kubectl apply -f /deploy.yaml
-                        "
-                    """
-                }
+        echo "Applying manifest..."
+        kubectl apply -f /deploy.yaml
+        EOF
+                '''
             }
         }
+
 
     }
 }
