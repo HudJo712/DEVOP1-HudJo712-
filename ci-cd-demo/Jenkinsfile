@@ -28,15 +28,14 @@ pipeline {
             }
         }
 
-
-
-
-
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE .'
+                dir('ci-cd-demo') {
+                    sh 'docker build -t hudjo712/ci-cd-demo:latest .'
+                }
             }
         }
+
 
         stage('Push Docker Image') {
             steps {
