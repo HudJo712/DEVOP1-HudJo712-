@@ -19,13 +19,12 @@ pipeline {
                 sh '''
                     docker run --rm python:3.9 bash -c "
                     mkdir /app &&
-                    echo 'flask\\npytest' > /app/requirements.txt &&
+                    echo 'flask\npytest' > /app/requirements.txt &&
                     pip install -r /app/requirements.txt &&
-                    echo 'print(\"Hello from Docker\")' > /app/app.py &&
+                    echo \\"print('Hello from Docker')\\" > /app/app.py &&
                     python /app/app.py
                     "
                     '''
-
             }
         }
 
