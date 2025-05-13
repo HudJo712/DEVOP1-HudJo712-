@@ -49,6 +49,14 @@ pipeline {
                 sh 'ls -l ci-cd-demo/k8s'
             }
         }
+        stage('Debug Paths') {
+            steps {
+                sh '''
+                echo "PWD is: $PWD"
+                ls -l "$PWD/ci-cd-demo/k8s"
+                '''
+            }
+        }
 
         stage('Deploy to Kubernetes') {
             steps {
