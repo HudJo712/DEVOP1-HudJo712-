@@ -13,6 +13,14 @@ pipeline {
                     url: 'git@github.com:HudJo712/DEVOP1-HudJo712-.git'
             }
         }
+        stage('Debug') {
+            steps {
+                sh 'echo "Current dir: $(pwd)"'
+                sh 'ls -la'
+                sh 'ls -la ci-cd-demo'
+            }
+        }
+
 
         stage('Run Tests') {
             steps {
