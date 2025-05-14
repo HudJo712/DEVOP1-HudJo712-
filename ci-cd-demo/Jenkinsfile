@@ -13,6 +13,13 @@ pipeline {
                     url: 'git@github.com:HudJo712/DEVOP1-HudJo712-.git'
             }
         }
+        stage('Check Docker Access') {
+            steps {
+                sh 'id'
+                sh 'groups'
+                sh 'docker ps'
+            }
+        }
 
         stage('Run Tests') {
             steps {
