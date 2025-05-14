@@ -65,20 +65,23 @@ pipeline {
             }
         }
         stage('Deploy to Kubernetes') {
-    steps {
+            steps {
+                sh '''
+                docker run --rm \
+                -v "$HOME/.kube":/root/.kube \
+                -v "$PWD/ci-cd-demo/k8s":/manifests \
+                bitnami/kubectl:latest apply -f /manifests/deployment.yaml
+                '''
+            }
+        }
+
+        stage('Test Kubernetes Access') {
+            steps {
                 sh '''
                 docker run --rm \
                 --entrypoint bash \
-                -v "$HOME/.kube":/root/.kube \
-                bitnami/kubectl:latest <<EOF
-        echo "Writing YAML..."
-        cat > /deploy.yaml <<YAML
-        <your YAML content here>
-        YAML
-
-        echo "Applying manifest..."
-        kubectl apply -f /deploy.yaml
-        EOF
+                -v /var/jenkins_home/.kube:/root/.kube \
+                bitnami/kubectl:latest -c "kubectl get pods --all-namespaces"
                 '''
             }
         }
